@@ -17,6 +17,8 @@ defmodule NaggerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/nuances", NuanceController
+    resources "/tags", TagController, except: [:new, :edit]
   end
 
   forward "/admin", AdminWeb.Router

@@ -1,0 +1,18 @@
+<h1>Show Nuance</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @nuance.name %>
+  </li>
+
+  <li>
+    <strong>Slug:</strong>
+    <%= @nuance.slug %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.nuance_path(@conn, :edit, @nuance) %></span>
+<span><%= link "Back", to: Routes.nuance_path(@conn, :index) %></span>

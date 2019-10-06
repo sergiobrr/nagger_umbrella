@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :nagger, Nagger.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "sergio",
+  password: "pg",
   database: "nagger_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

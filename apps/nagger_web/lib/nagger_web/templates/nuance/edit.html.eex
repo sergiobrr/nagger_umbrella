@@ -1,0 +1,5 @@
+<h1>Edit Nuance</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.nuance_path(@conn, :update, @nuance)) %>
+
+<span><%= link "Back", to: Routes.nuance_path(@conn, :index) %></span>

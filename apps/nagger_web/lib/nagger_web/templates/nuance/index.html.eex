@@ -1,0 +1,28 @@
+<h1>Listing Nuances</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Slug</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for nuance <- @nuances do %>
+    <tr>
+      <td><%= nuance.name %></td>
+      <td><%= nuance.slug %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.nuance_path(@conn, :show, nuance) %></span>
+        <span><%= link "Edit", to: Routes.nuance_path(@conn, :edit, nuance) %></span>
+        <span><%= link "Delete", to: Routes.nuance_path(@conn, :delete, nuance), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Nuance", to: Routes.nuance_path(@conn, :new) %></span>
