@@ -18,10 +18,14 @@ defmodule NaggerWeb.Router do
 
     get "/", PageController, :index
     resources "/nuances", NuanceController
+  end
+
+  scope "/api", NaggerWeb do
+    pipe_through :api
     resources "/tags", TagController, except: [:new, :edit]
   end
 
   forward "/admin", AdminWeb.Router
-  forward "/api", ApiWeb.Router
+  forward "/apiweb", ApiWeb.Router
 
 end

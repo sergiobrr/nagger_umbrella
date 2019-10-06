@@ -74,8 +74,9 @@ defmodule Nagger.TagsTest do
 
     test "create_tag_with_reference/2 create appropriate relationship too" do
       nuance_id = nuance_fixture()
-      {:ok, nuance_tag} = Tags.create_tag_with_reference(@valid_attrs, nuance_id)
-      assert nuance_tag.nuance_id == nuance_id
+      {:ok, tag} = Tags.create_tag_with_reference(@valid_attrs, nuance_id)
+      assert tag.value == "some value"
+      assert Nuances.get_nuance!(nuance_id).tags == [tag]
     end
   end
 end

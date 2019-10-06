@@ -33,3 +33,11 @@
     </ul>
   </article>
 </section>
+<div class="row">
+    <script src="<%= Routes.static_path(@conn, "/js/tags/hello-world.tag") %>" type="riot/tag"></script>
+
+    <hello-world from="Sergio"></hello-world>
+    <script>
+        riot.mount('*');
+    </script>
+  </div>

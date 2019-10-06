@@ -1,5 +1,10 @@
-<h1>Edit Nuance</h1>
+<h1>Edit nuance <%= @nuance.name %></h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.nuance_path(@conn, :update, @nuance)) %>
+<script src="<%= Routes.static_path(@conn, "/js/tags/nuance-tags.tag") %>" type="riot/tag"></script>
 
+<nuance-tags tags="<%= Enum.map(@nuance.tags, fn tag -> tag.value end) %>" nuance_id="<%= @nuance.id %>"></nuance-tags>
+<script>
+    riot.mount('*');
+</script>
 <span><%= link "Back", to: Routes.nuance_path(@conn, :index) %></span>

@@ -65,6 +65,7 @@ defmodule Nagger.Tags do
       %NuanceTag{}
       |> NuanceTag.changeset(%{:nuance_id => nuance_id, :tag_id => tag.id})
       |> Repo.insert()
+      {:ok, tag}
     end
   end
 

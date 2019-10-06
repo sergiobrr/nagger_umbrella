@@ -11,8 +11,10 @@ defmodule NaggerWeb.TagController do
     render(conn, "index.json", tags: tags)
   end
 
-  def create(conn, %{"tag" => tag_params}) do
-    with {:ok, %Tag{} = tag} <- Tags.create_tag(tag_params) do
+  def create(conn, %{"tag" => tag_params, "nuance_id" => nuance_id}) do
+    with {:ok, %Tag{} = tag} <- Tags.create_tag_with_reference(
+      tag_params, nuance_id
+    ) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.tag_path(conn, :show, tag))
