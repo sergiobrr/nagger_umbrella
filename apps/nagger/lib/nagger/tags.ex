@@ -8,6 +8,7 @@ defmodule Nagger.Tags do
   alias Nagger.Repo
   alias Nagger.Tags.Tag
   alias Nagger.Nuances.NuanceTag
+  alias Nagger.FilterConfig
 
   @doc """
   Returns the list of tags.
@@ -18,8 +19,12 @@ defmodule Nagger.Tags do
       [%Tag{}, ...]
 
   """
-  def list_tags do
-    Repo.all(Tag)
+  def list_tags(query \\ nil) do
+    if query do
+      Repo.all(query)
+    else
+      Repo.all(Tag)
+    end
   end
 
   @doc """
@@ -60,11 +65,13 @@ defmodule Nagger.Tags do
   Create a tag and add an entry in nuance_tags referred
   to the nuance tag is coming from
 """
-  def create_tag_with_reference(attrs \\ %{}, nuance_id) do
+  def create_tag_with_reference(attrs \\ %{}, nuance_id \\ nil) do
     with {:ok, tag} <- create_tag(attrs) do
-      %NuanceTag{}
-      |> NuanceTag.changeset(%{:nuance_id => nuance_id, :tag_id => tag.id})
-      |> Repo.insert()
+      if nuance_id do
+        %NuanceTag{}
+        |> NuanceTag.changeset(%{:nuance_id => nuance_id, :tag_id => tag.id})
+        |> Repo.insert()
+      end
       {:ok, tag}
     end
   end

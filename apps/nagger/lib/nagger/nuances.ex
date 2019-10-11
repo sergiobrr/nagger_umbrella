@@ -50,9 +50,12 @@ defmodule Nagger.Nuances do
 
   """
   def create_nuance(attrs \\ %{}) do
-    %Nuance{}
-    |> Nuance.changeset(attrs)
-    |> Repo.insert()
+    with {:ok, nuance} <- %Nuance{}
+        |> Nuance.changeset(attrs)
+        |> Repo.insert() do
+      nuance = Repo.preload(nuance, [:tags])
+      {:ok, nuance}
+    end
   end
 
   @doc """

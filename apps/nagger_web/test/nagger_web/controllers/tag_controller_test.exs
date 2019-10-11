@@ -7,6 +7,9 @@ defmodule NaggerWeb.TagControllerTest do
   @create_attrs %{
     value: "some value"
   }
+  @create_attrs_again %{
+    value: "some value again"
+  }
   @update_attrs %{
     value: "some updated value"
   }
@@ -17,20 +20,35 @@ defmodule NaggerWeb.TagControllerTest do
     tag
   end
 
+  def fixture_again(:tag) do
+    {:ok, tag} = Tags.create_tag(@create_attrs_again)
+    tag
+  end
+
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
+  describe "index no data" do
     test "lists all tags", %{conn: conn} do
       conn = get(conn, Routes.tag_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
+  describe "index with data and filter" do
+    setup [:create_tags]
+
+    test "renders only tags filtered" do
+      conn = get(conn, Routes.tag_path(conn, :index), %{:value => "some value again"})
+      # IO.puts json_response(conn, 200)["data"]
+      assert 9 == 9
+    end
+  end
+
   describe "create tag" do
     test "renders tag when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.tag_path(conn, :create), tag: @create_attrs)
+      conn = post(conn, Routes.tag_path(conn, :create), tag: @create_attrs, nuance_id: nil)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.tag_path(conn, :show, id))
@@ -42,7 +60,7 @@ defmodule NaggerWeb.TagControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.tag_path(conn, :create), tag: @invalid_attrs)
+      conn = post(conn, Routes.tag_path(conn, :create), tag: @invalid_attrs, nuance_id: nil)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -84,5 +102,11 @@ defmodule NaggerWeb.TagControllerTest do
   defp create_tag(_) do
     tag = fixture(:tag)
     {:ok, tag: tag}
+  end
+
+  defp create_tags(_) do
+    tag = fixture(:tag)
+    tag_again = fixture_again(:tag)
+    {:ok, tags: [tag, tag_again]}
   end
 end

@@ -1,14 +1,29 @@
 defmodule NaggerWeb.TagController do
   use NaggerWeb, :controller
 
+  import Ecto.Query
+
   alias Nagger.Tags
   alias Nagger.Tags.Tag
+  alias NaggerWeb.FilterConfig
 
   action_fallback NaggerWeb.FallbackController
 
-  def index(conn, _params) do
-    tags = Tags.list_tags()
-    render(conn, "index.json", tags: tags)
+  def index(conn, params \\ nil) do
+    if params do
+      query = get_query(params)
+      tags = Tags.list_tags(query)
+      render(conn, "index.json", tags: tags)
+    else
+      tags = Tags.list_tags()
+      render(conn, "index.json", tags: tags)
+    end
+  end
+
+  def get_query(params) do
+    {:ok, filter} = FilterConfig.tags()
+      |> Filtrex.parse_params(params)
+    Filtrex.query(from(t in Tag), filter)
   end
 
   def create(conn, %{"tag" => tag_params, "nuance_id" => nuance_id}) do

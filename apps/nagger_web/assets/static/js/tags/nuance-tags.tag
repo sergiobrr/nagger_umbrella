@@ -11,9 +11,9 @@
         console.log('mounted....');
         superagent.get('/api/tags')
         .end(function (err, res) {
-            console.log('err', err, 'res', res);
             if (err === null) {
                this.tags = res.body.data;
+               console.log('this.tags', this.tags);
             }
         });
     });
@@ -21,7 +21,7 @@
     this.addtag = function () {
         console.log('Adesso sì...');
         superagent.post('/api/tags')
-        .send({tag: {value: 'pluto'}, nuance_id: this.opts.nuance_id})
+        .send({tag: {value: 'topolino'}, nuance_id: null})
         .end(function (err, res) {
            console.log('err', err, 'res', res);
         });

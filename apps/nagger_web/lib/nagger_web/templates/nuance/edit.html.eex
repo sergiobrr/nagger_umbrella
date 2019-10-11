@@ -3,7 +3,7 @@
 <%= render "form.html", Map.put(assigns, :action, Routes.nuance_path(@conn, :update, @nuance)) %>
 <script src="<%= Routes.static_path(@conn, "/js/tags/nuance-tags.tag") %>" type="riot/tag"></script>
 
-<nuance-tags tags="<%= Enum.map(@nuance.tags, fn tag -> tag.value end) %>" nuance_id="<%= @nuance.id %>"></nuance-tags>
+<nuance-tags tags="<%= Enum.map(@nuance.tags, fn tag -> tag.value <> "," end) %>" nuance_id="<%= @nuance.id %>"></nuance-tags>
 <script>
     riot.mount('*');
 </script>
